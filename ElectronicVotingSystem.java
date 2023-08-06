@@ -1,7 +1,9 @@
 package project;
 import java.util.*;
 public class ElectronicVotingSystem {
+	
 		//Common variables
+	
 		static Scanner s = new Scanner(System.in);
 		static AVLtree a = new AVLtree();
 		static final int PASSWORD =12345678;
@@ -11,6 +13,7 @@ public class ElectronicVotingSystem {
 		static int noofvotes;
 		static String candNames[];
 		static boolean databaseFlag = false;
+		
 		
 		//MainProgram
 		public static void main(String args[]) {
@@ -86,7 +89,7 @@ public class ElectronicVotingSystem {
 			if(voter==null) System.out.println("	Authorizatioin revoked due to mismatched information\n\tEnter your details properly ");
 			else 
 			{	if(voter.voted) {
-				System.out.println("	You have already voted !! ");
+				System.out.println("	You have already voted !!  ");
 				return;
 				}
 				if(voter.aadharNo == adNo && voter.mobNo == mobNo) {
@@ -155,6 +158,7 @@ public class ElectronicVotingSystem {
 			System.out.println("	1.Create database ");
 			System.out.println("	2.Show status ");
 			System.out.println("	3.Show database ");
+			System.out.println("	4.End election ");
 			int ch = s.nextInt();
 			switch(ch) {
 			case 1:{
@@ -171,6 +175,7 @@ public class ElectronicVotingSystem {
 				}
 				for(int i=0;i<candNames.length;i++) {
 					System.out.println("	Party "+candNames[i]+" got "+votes[i]+" Votes");
+					electionCommission();
 				}
 				break;
 			}
@@ -178,6 +183,7 @@ public class ElectronicVotingSystem {
 				if(databaseFlag) {
 					System.out.println("	VOTERS DATABASE  ");
 					a.inOrder();
+					electionCommission();
 				}
 				else {
 					System.out.println("	Database not created !");
@@ -185,6 +191,27 @@ public class ElectronicVotingSystem {
 				}
 				break;
 			}
+			case 4:if(databaseFlag){
+				System.out.println("	ELECTION COMPLETED   ");
+				for(int i=0;i<votes.length;i++) {
+					System.out.println("	"+candNames[i]+" got "+votes[i]+" Number votes ");
+				}
+				if(sameVotes()) {
+					System.out.println("\tELECTIOIN DRAW :(");
+					System.exit(0);
+				}
+				int winner=findWinner();
+				System.out.println("\n\n");
+				System.out.println("	-------------------------------- ");
+				System.out.println("	W I N N E R     I S   "+candNames[winner].toUpperCase());
+				System.out.println("	-------------------------------- ");
+				System.exit(0);
+			
+			}
+			else {
+				System.out.println("	Database not created !");
+			}
+			break;
 			default:
 				{	
 					System.out.println("	Enter valid choice ");
